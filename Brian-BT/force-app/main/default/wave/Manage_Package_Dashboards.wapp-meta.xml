@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WaveApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <folder>buildertek__Manage_Package_Dashboards</folder>
+    <masterLabel>Manage Package Dashboards</masterLabel>
+    <shares>
+        <accessLevel>Manage</accessLevel>
+        <sharedTo>AllInternalUsers</sharedTo>
+        <sharedToType>Organization</sharedToType>
+    </shares>
+    <shares>
+        <accessLevel>View</accessLevel>
+        <sharedTo>AllPartnerUsers</sharedTo>
+        <sharedToType>AllPrmUsers</sharedToType>
+    </shares>
+    <shares>
+        <accessLevel>View</accessLevel>
+        <sharedTo>AllCustomerPortalUsers</sharedTo>
+        <sharedToType>AllCspUsers</sharedToType>
+    </shares>
+    <shares>
+        <accessLevel>Manage</accessLevel>
+        <sharedTo>dharmik@bt.com</sharedTo>
+        <sharedToType>User</sharedToType>
+    </shares>
+</WaveApplication>

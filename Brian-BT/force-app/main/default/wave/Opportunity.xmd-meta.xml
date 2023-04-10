@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WaveXmd xmlns="http://soap.sforce.com/2006/04/metadata">
+    <dataset>Opportunity</dataset>
+    <dimensions>
+        <field>Name</field>
+        <isDerived>false</isDerived>
+        <label>Opportunity Name</label>
+        <linkTemplate>/{{row.Id}}</linkTemplate>
+        <linkTemplateEnabled>true</linkTemplateEnabled>
+        <recordIdField>Id</recordIdField>
+        <salesforceActionsEnabled>true</salesforceActionsEnabled>
+        <sortIndex>0</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Owner.Name</field>
+        <isDerived>false</isDerived>
+        <label>Opportunity Owner</label>
+        <sortIndex>1</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Account.Owner.Name</field>
+        <isDerived>false</isDerived>
+        <label>Account Owner</label>
+        <sortIndex>2</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Account.Name</field>
+        <isDerived>false</isDerived>
+        <linkTemplate>/{{row.AccountId}}</linkTemplate>
+        <linkTemplateEnabled>true</linkTemplateEnabled>
+        <linkTooltip>Open Account</linkTooltip>
+        <recordIdField>AccountId</recordIdField>
+        <salesforceActionsEnabled>true</salesforceActionsEnabled>
+        <sortIndex>3</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Id</field>
+        <isDerived>false</isDerived>
+        <label>Opportunity ID Embed</label>
+        <sortIndex>4</sortIndex>
+    </dimensions>
+    <measures>
+        <field>Amount</field>
+        <formatCustomFormat>[&quot;$#,###&quot;,1]</formatCustomFormat>
+        <isDerived>false</isDerived>
+        <sortIndex>0</sortIndex>
+    </measures>
+    <measures>
+        <field>WinRate</field>
+        <formatCustomFormat>[&quot;#,###.##%&quot;,100]</formatCustomFormat>
+        <isDerived>true</isDerived>
+        <showInExplorer>true</showInExplorer>
+        <sortIndex>0</sortIndex>
+    </measures>
+</WaveXmd>

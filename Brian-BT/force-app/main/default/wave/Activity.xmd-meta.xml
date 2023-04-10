@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WaveXmd xmlns="http://soap.sforce.com/2006/04/metadata">
+    <dataset>Activity</dataset>
+    <dimensions>
+        <field>Opp.Name</field>
+        <isDerived>false</isDerived>
+        <linkTemplate>/{{row.Opp.Id}}</linkTemplate>
+        <linkTemplateEnabled>true</linkTemplateEnabled>
+        <recordIdField>Opp.Id</recordIdField>
+        <salesforceActionsEnabled>false</salesforceActionsEnabled>
+        <sortIndex>0</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Subject</field>
+        <isDerived>false</isDerived>
+        <linkTemplate>/{{row.Id}}</linkTemplate>
+        <linkTemplateEnabled>true</linkTemplateEnabled>
+        <recordIdField>Id</recordIdField>
+        <salesforceActionsEnabled>false</salesforceActionsEnabled>
+        <sortIndex>1</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Opp.Account.Owner.Name</field>
+        <isDerived>false</isDerived>
+        <label>OppAcctOwner</label>
+        <sortIndex>2</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Opp.Owner.Name</field>
+        <isDerived>false</isDerived>
+        <label>Opportunity Owner</label>
+        <sortIndex>3</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Owner.Name</field>
+        <isDerived>false</isDerived>
+        <label>Owner Name</label>
+        <sortIndex>4</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Account.Owner.Name</field>
+        <isDerived>false</isDerived>
+        <label>Account Owner</label>
+        <sortIndex>5</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Opp.Account.Name</field>
+        <isDerived>false</isDerived>
+        <linkTemplate>/{{row.AccountId}}</linkTemplate>
+        <linkTemplateEnabled>true</linkTemplateEnabled>
+        <linkTooltip>Open Account</linkTooltip>
+        <recordIdField>AccountId</recordIdField>
+        <salesforceActionsEnabled>true</salesforceActionsEnabled>
+        <sortIndex>6</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Opp.Id</field>
+        <isDerived>false</isDerived>
+        <label>Opp ID Embed</label>
+        <sortIndex>7</sortIndex>
+    </dimensions>
+</WaveXmd>

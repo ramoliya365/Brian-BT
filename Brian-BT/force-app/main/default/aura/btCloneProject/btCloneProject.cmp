@@ -1,0 +1,20 @@
+<aura:component implements="force:lightningQuickAction,force:hasRecordId" >
+    <aura:attribute name="options" type="List" default="[{'label': 'Budget', 'value': 'Budget'},
+                                                        {'label': 'Contract', 'value': 'Contract'},
+                                                        {'label': 'Inspections', 'value': 'Inspections'},
+                                                        {'label': 'Quote', 'value': 'Quote'},
+                                                        {'label': 'Punch List', 'value': 'PunchList'},
+                                                        {'label': 'Purchase Order', 'value': 'Purchase Order'},
+                                                        {'label': 'Schedule', 'value': 'Schedule'},
+                                                        {'label': 'Selection', 'value': 'Selection'},
+                                                        {'label': 'Warranty', 'value': 'Warranty'} ]"/> 
+    <aura:attribute name="value" type="List" default=""/>
+
+    <lightning:checkboxGroup name="Checkbox Group"
+                             label="Select items to be cloned"
+                             options="{! v.options }"
+                             value="{! v.value }"
+                             onchange="{! c.handleChange }"/>
+    <br/>
+     <lightning:button variant="brand" label="Clone Project" title="Clone Project" onclick="{! c.handleClick }" />
+</aura:component>

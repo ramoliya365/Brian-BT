@@ -1,0 +1,775 @@
+{
+  "version" : "56.0",
+  "nodes" : {
+    "APPEND0" : {
+      "action" : "appendV2",
+      "parameters" : {
+        "fieldMappings" : [ {
+          "bottom" : "Id",
+          "top" : "Id"
+        }, {
+          "bottom" : "WhoId",
+          "top" : "WhoId"
+        }, {
+          "bottom" : "WhatId",
+          "top" : "WhatId"
+        }, {
+          "bottom" : "Subject",
+          "top" : "Subject"
+        }, {
+          "bottom" : "CallDurationInSeconds",
+          "top" : "DurationInMinutes"
+        }, {
+          "bottom" : "AccountId",
+          "top" : "AccountId"
+        }, {
+          "bottom" : "OwnerId",
+          "top" : "OwnerId"
+        }, {
+          "bottom" : "CreatedDate",
+          "top" : "CreatedDate"
+        }, {
+          "bottom" : "CreatedById",
+          "top" : "CreatedById"
+        }, {
+          "bottom" : "LastModifiedDate",
+          "top" : "LastModifiedDate"
+        }, {
+          "bottom" : "EventSubtype",
+          "top" : "EventSubtype"
+        }, {
+          "bottom" : "ActivityDate",
+          "top" : "ActivityDate"
+        }, {
+          "bottom" : "TaskSubtype",
+          "top" : "TaskSubtype"
+        }, {
+          "bottom" : "Status"
+        }, {
+          "bottom" : "Priority"
+        }, {
+          "bottom" : "IsClosed"
+        } ]
+      },
+      "sources" : [ "EDIT_ATTRIBUTES6", "EDIT_ATTRIBUTES7" ]
+    },
+    "JOIN0" : {
+      "action" : "join",
+      "parameters" : {
+        "joinType" : "LOOKUP",
+        "leftKeys" : [ "OwnerId" ],
+        "rightKeys" : [ "Id" ],
+        "rightQualifier" : "Owner"
+      },
+      "schema" : {
+        "fields" : [ ],
+        "slice" : {
+          "fields" : [ "Owner.Id" ],
+          "ignoreMissingFields" : true,
+          "mode" : "DROP"
+        }
+      },
+      "sources" : [ "JOIN4", "LOAD_DATASET2" ]
+    },
+    "JOIN2" : {
+      "action" : "join",
+      "parameters" : {
+        "joinType" : "LOOKUP",
+        "leftKeys" : [ "WhatId" ],
+        "rightKeys" : [ "Id" ],
+        "rightQualifier" : "Opp"
+      },
+      "schema" : {
+        "fields" : [ ],
+        "slice" : {
+          "fields" : [ "Opp.LastModifiedDate", "Opp.HasOpportunityLineItem", "Opp.IsDeleted" ],
+          "ignoreMissingFields" : true,
+          "mode" : "DROP"
+        }
+      },
+      "sources" : [ "JOIN0", "LOAD_DATASET4" ]
+    },
+    "JOIN3" : {
+      "action" : "join",
+      "parameters" : {
+        "joinType" : "LOOKUP",
+        "leftKeys" : [ "AccountId" ],
+        "rightKeys" : [ "Id" ],
+        "rightQualifier" : "Account"
+      },
+      "schema" : {
+        "fields" : [ ],
+        "slice" : {
+          "fields" : [ "Account.BillingCity", "Account.Owner.Email", "Account.BillingPostalCode", "Account.Owner.Username", "Account.ShippingStreet", "Account.ShippingPostalCode", "Account.ShippingState", "Account.Id", "Account.OwnerId", "Account.Phone", "Account.ShippingCountry", "Account.ShippingCity", "Account.BillingCountry", "Account.BillingStreet", "Account.NumberOfEmployees", "Account.LastModifiedDate", "Account.LastViewedDate", "Account.CreatedDate" ],
+          "ignoreMissingFields" : true,
+          "mode" : "DROP"
+        }
+      },
+      "sources" : [ "JOIN2", "LOAD_DATASET5" ]
+    },
+    "LOAD_DATASET0" : {
+      "action" : "load",
+      "parameters" : {
+        "dataset" : {
+          "connectionName" : "SFDC_LOCAL",
+          "label" : "Task",
+          "sourceObjectName" : "Task",
+          "type" : "connectedDataset"
+        },
+        "fields" : [ "Id", "WhoId", "WhatId", "Subject", "ActivityDate", "Status", "Priority", "IsHighPriority", "OwnerId", "AccountId", "IsClosed", "CreatedDate", "CreatedById", "LastModifiedDate", "CallDurationInSeconds", "CallType", "CallDisposition", "CallObject", "TaskSubtype" ],
+        "sampleDetails" : {
+          "sortBy" : [ ],
+          "type" : "TopN"
+        }
+      },
+      "sources" : [ ]
+    },
+    "LOAD_DATASET1" : {
+      "action" : "load",
+      "parameters" : {
+        "dataset" : {
+          "connectionName" : "SFDC_LOCAL",
+          "label" : "Event",
+          "sourceObjectName" : "Event",
+          "type" : "connectedDataset"
+        },
+        "fields" : [ "Id", "WhoId", "WhatId", "Subject", "Location", "DurationInMinutes", "EndDateTime", "AccountId", "OwnerId", "ShowAs", "CreatedDate", "CreatedById", "LastModifiedDate", "EventSubtype", "ActivityDate" ],
+        "sampleDetails" : {
+          "sortBy" : [ ],
+          "type" : "TopN"
+        }
+      },
+      "sources" : [ ]
+    },
+    "LOAD_DATASET2" : {
+      "action" : "load",
+      "parameters" : {
+        "dataset" : {
+          "label" : "User",
+          "name" : "buildertek__User",
+          "type" : "analyticsDataset"
+        },
+        "fields" : [ ],
+        "sampleDetails" : {
+          "sortBy" : [ ],
+          "type" : "TopN"
+        }
+      },
+      "sources" : [ ]
+    },
+    "LOAD_DATASET4" : {
+      "action" : "load",
+      "parameters" : {
+        "dataset" : {
+          "label" : "Opportunity",
+          "name" : "buildertek__Opportunity",
+          "type" : "analyticsDataset"
+        },
+        "fields" : [ ],
+        "sampleDetails" : {
+          "sortBy" : [ ],
+          "type" : "TopN"
+        }
+      },
+      "sources" : [ ]
+    },
+    "LOAD_DATASET5" : {
+      "action" : "load",
+      "parameters" : {
+        "dataset" : {
+          "label" : "Account",
+          "name" : "buildertek__Account",
+          "type" : "analyticsDataset"
+        },
+        "fields" : [ ],
+        "sampleDetails" : {
+          "sortBy" : [ ],
+          "type" : "TopN"
+        }
+      },
+      "sources" : [ ]
+    },
+    "OUTPUT0" : {
+      "action" : "save",
+      "parameters" : {
+        "dataset" : {
+          "folderName" : "buildertek__CustomerInsights",
+          "label" : "Activity",
+          "name" : "buildertek__Activity",
+          "rowLevelSecurityFilter" : "'Owner.Role.Roles' == \"$User.UserRoleId\" || 'OwnerId' == \"$User.Id\"",
+          "type" : "analyticsDataset"
+        },
+        "fields" : [ ]
+      },
+      "sources" : [ "EDIT_ATTRIBUTES11" ]
+    },
+    "EDIT_ATTRIBUTES7" : {
+      "action" : "schema",
+      "parameters" : {
+        "fields" : [ {
+          "name" : "ActivityDate",
+          "newProperties" : {
+            "label" : "ActivityDate",
+            "name" : "ActivityDate"
+          }
+        } ]
+      },
+      "sources" : [ "FORMULA0" ]
+    },
+    "FORMULA0" : {
+      "action" : "formula",
+      "parameters" : {
+        "expressionType" : "SQL",
+        "fields" : [ {
+          "defaultValue" : "",
+          "formulaExpression" : "TaskSubtype",
+          "label" : "Event Subtype",
+          "name" : "EventSubtype",
+          "precision" : 255,
+          "type" : "TEXT"
+        } ]
+      },
+      "sources" : [ "LOAD_DATASET0" ]
+    },
+    "EDIT_ATTRIBUTES5" : {
+      "action" : "schema",
+      "parameters" : {
+        "fields" : [ {
+          "name" : "CreatedDate",
+          "newProperties" : {
+            "label" : "CreatedDate",
+            "name" : "CreatedDate"
+          }
+        } ]
+      },
+      "sources" : [ "FORMULA1" ]
+    },
+    "EDIT_ATTRIBUTES6" : {
+      "action" : "schema",
+      "parameters" : {
+        "fields" : [ {
+          "name" : "ActivityDate",
+          "newProperties" : {
+            "label" : "ActivityDate",
+            "name" : "ActivityDate"
+          }
+        } ]
+      },
+      "sources" : [ "EDIT_ATTRIBUTES5" ]
+    },
+    "FORMULA1" : {
+      "action" : "formula",
+      "parameters" : {
+        "expressionType" : "SQL",
+        "fields" : [ {
+          "defaultValue" : "",
+          "formulaExpression" : "EventSubtype",
+          "label" : "Task Subtype",
+          "name" : "TaskSubtype",
+          "precision" : 255,
+          "type" : "TEXT"
+        } ]
+      },
+      "sources" : [ "LOAD_DATASET1" ]
+    },
+    "FORMULA2" : {
+      "action" : "formula",
+      "parameters" : {
+        "expressionType" : "SQL",
+        "fields" : [ {
+          "defaultValue" : "",
+          "formulaExpression" : "case \n\twhen \"Opp.IsClosed\" in ('false') and datediff(now(), to_date(ActivityDate, 'yyyy-MM-dd')) > 0\n\tthen 'true'\n\telse\n\t'false'\nend",
+          "label" : "IsOverdue",
+          "name" : "IsOverdue",
+          "precision" : 255,
+          "type" : "TEXT"
+        } ]
+      },
+      "sources" : [ "JOIN3" ]
+    },
+    "FORMULA3" : {
+      "action" : "formula",
+      "parameters" : {
+        "expressionType" : "SQL",
+        "fields" : [ {
+          "defaultValue" : "",
+          "formulaExpression" : "case \n\twhen IsOverdue in ('true')\n\tthen abs(datediff(now(),to_date(ActivityDate, 'yyyy-MM-dd')))\n\telse\n\t0\nend",
+          "label" : "DaysOverdue",
+          "name" : "DaysOverdue",
+          "precision" : 10,
+          "scale" : 0,
+          "type" : "NUMBER"
+        } ]
+      },
+      "sources" : [ "FORMULA2" ]
+    },
+    "FORMULA4" : {
+      "action" : "formula",
+      "parameters" : {
+        "expressionType" : "SQL",
+        "fields" : [ {
+          "defaultValue" : "",
+          "formulaExpression" : "datediff(now(),\"Account.LastActivityDate\")",
+          "label" : "Days Since Last Activity",
+          "name" : "DaysSinceLastActivity",
+          "precision" : 10,
+          "scale" : 0,
+          "type" : "NUMBER"
+        } ]
+      },
+      "sources" : [ "FORMULA3" ]
+    },
+    "EDIT_ATTRIBUTES8" : {
+      "action" : "schema",
+      "parameters" : {
+        "fields" : [ {
+          "name" : "Contact.ContactName",
+          "newProperties" : {
+            "label" : "Full Name",
+            "name" : "Contact.Name"
+          }
+        } ]
+      },
+      "sources" : [ "FORMULA4" ]
+    },
+    "EDIT_ATTRIBUTES9" : {
+      "action" : "schema",
+      "parameters" : {
+        "fields" : [ {
+          "name" : "Contact.ContactTitle",
+          "newProperties" : {
+            "label" : "Title",
+            "name" : "Contact.Title"
+          }
+        } ]
+      },
+      "sources" : [ "EDIT_ATTRIBUTES8" ]
+    },
+    "EDIT_ATTRIBUTES10" : {
+      "action" : "schema",
+      "parameters" : {
+        "fields" : [ {
+          "name" : "Contact.ContactEmail",
+          "newProperties" : {
+            "label" : "Email",
+            "name" : "Contact.Email"
+          }
+        } ]
+      },
+      "sources" : [ "EDIT_ATTRIBUTES9" ]
+    },
+    "EDIT_ATTRIBUTES11" : {
+      "action" : "schema",
+      "parameters" : {
+        "fields" : [ {
+          "name" : "Contact.ContactPhone",
+          "newProperties" : {
+            "label" : "Business Phone",
+            "name" : "Contact.Phone"
+          }
+        } ]
+      },
+      "sources" : [ "EDIT_ATTRIBUTES10" ]
+    },
+    "JOIN4" : {
+      "action" : "join",
+      "parameters" : {
+        "joinType" : "LOOKUP",
+        "leftKeys" : [ "WhoId" ],
+        "rightKeys" : [ "Id" ],
+        "rightQualifier" : "Contact"
+      },
+      "schema" : {
+        "fields" : [ ],
+        "slice" : {
+          "fields" : [ ],
+          "ignoreMissingFields" : true,
+          "mode" : "DROP"
+        }
+      },
+      "sources" : [ "APPEND0", "DROP_FIELDS0" ]
+    },
+    "LOAD_DATASET7" : {
+      "action" : "load",
+      "parameters" : {
+        "dataset" : {
+          "connectionName" : "SFDC_LOCAL",
+          "label" : "Contact",
+          "sourceObjectName" : "Contact",
+          "type" : "connectedDataset"
+        },
+        "fields" : [ "Id", "Name", "AccountId", "Title", "Email", "Phone", "Department", "OwnerId", "LastActivityDate", "PhotoUrl" ],
+        "sampleDetails" : {
+          "sortBy" : [ ],
+          "type" : "TopN"
+        }
+      },
+      "sources" : [ ]
+    },
+    "FORMULA5" : {
+      "action" : "formula",
+      "parameters" : {
+        "expressionType" : "SQL",
+        "fields" : [ {
+          "defaultValue" : "N/A",
+          "formulaExpression" : "\"Name\"",
+          "label" : "ContactName",
+          "name" : "ContactName",
+          "precision" : 255,
+          "type" : "TEXT"
+        } ]
+      },
+      "sources" : [ "LOAD_DATASET7" ]
+    },
+    "FORMULA6" : {
+      "action" : "formula",
+      "parameters" : {
+        "expressionType" : "SQL",
+        "fields" : [ {
+          "defaultValue" : "N/A",
+          "formulaExpression" : "\"Title\"",
+          "label" : "ContactTitle",
+          "name" : "ContactTitle",
+          "precision" : 255,
+          "type" : "TEXT"
+        } ]
+      },
+      "sources" : [ "FORMULA5" ]
+    },
+    "FORMULA7" : {
+      "action" : "formula",
+      "parameters" : {
+        "expressionType" : "SQL",
+        "fields" : [ {
+          "defaultValue" : "N/A",
+          "formulaExpression" : "\"Email\"",
+          "label" : "ContactEmail",
+          "name" : "ContactEmail",
+          "precision" : 255,
+          "type" : "TEXT"
+        } ]
+      },
+      "sources" : [ "FORMULA6" ]
+    },
+    "FORMULA8" : {
+      "action" : "formula",
+      "parameters" : {
+        "expressionType" : "SQL",
+        "fields" : [ {
+          "defaultValue" : "N/A",
+          "formulaExpression" : "\"Phone\"",
+          "label" : "ContactPhone",
+          "name" : "ContactPhone",
+          "precision" : 255,
+          "type" : "TEXT"
+        } ]
+      },
+      "sources" : [ "FORMULA7" ]
+    },
+    "DROP_FIELDS0" : {
+      "action" : "schema",
+      "parameters" : {
+        "fields" : [ ],
+        "slice" : {
+          "fields" : [ "Name", "Title", "Email", "Phone" ],
+          "ignoreMissingFields" : true,
+          "mode" : "DROP"
+        }
+      },
+      "sources" : [ "FORMULA8" ]
+    }
+  },
+  "ui" : {
+    "nodes" : {
+      "APPEND0" : {
+        "label" : "Append",
+        "type" : "APPEND",
+        "top" : 112.1,
+        "left" : 392
+      },
+      "JOIN0" : {
+        "label" : "Join Owner onto Activity",
+        "description" : "",
+        "type" : "JOIN",
+        "top" : 112.19999999999999,
+        "left" : 672.5
+      },
+      "JOIN2" : {
+        "label" : "Join Opportunity onto Activity",
+        "description" : "",
+        "type" : "JOIN",
+        "top" : 112.30000000000001,
+        "left" : 812.5
+      },
+      "JOIN3" : {
+        "label" : "Join Account onto Activity",
+        "description" : "",
+        "type" : "JOIN",
+        "top" : 112.30000000000001,
+        "left" : 952.5
+      },
+      "LOAD_DATASET0" : {
+        "label" : "Task",
+        "type" : "LOAD_DATASET",
+        "top" : 112,
+        "left" : 112,
+        "parameters" : {
+          "sampleSize" : 2000
+        }
+      },
+      "LOAD_DATASET1" : {
+        "label" : "Event",
+        "type" : "LOAD_DATASET",
+        "top" : 252,
+        "left" : 112,
+        "parameters" : {
+          "sampleSize" : 2000
+        }
+      },
+      "LOAD_DATASET2" : {
+        "label" : "User",
+        "description" : "",
+        "type" : "LOAD_DATASET",
+        "top" : 252.3,
+        "left" : 672.8,
+        "parameters" : {
+          "sampleSize" : 2000
+        }
+      },
+      "LOAD_DATASET4" : {
+        "label" : "Load Opportunity Dataset",
+        "description" : "",
+        "type" : "LOAD_DATASET",
+        "top" : 252.3,
+        "left" : 812.8,
+        "parameters" : {
+          "sampleSize" : 2000
+        }
+      },
+      "LOAD_DATASET5" : {
+        "label" : "Load Account Dataset",
+        "description" : "",
+        "type" : "LOAD_DATASET",
+        "top" : 252.3,
+        "left" : 952.8,
+        "parameters" : {
+          "sampleSize" : 2000
+        }
+      },
+      "OUTPUT0" : {
+        "label" : "Save Activity",
+        "description" : "",
+        "type" : "OUTPUT",
+        "top" : 112.4,
+        "left" : 1232.5
+      },
+      "TRANSFORM0" : {
+        "label" : "Transform",
+        "type" : "TRANSFORM",
+        "top" : 112,
+        "left" : 252,
+        "graph" : {
+          "EDIT_ATTRIBUTES7" : null,
+          "FORMULA0" : {
+            "parameters" : {
+              "type" : "BASE_FORMULA_UI"
+            }
+          }
+        },
+        "connectors" : [ {
+          "source" : "FORMULA0",
+          "target" : "EDIT_ATTRIBUTES7"
+        } ]
+      },
+      "TRANSFORM1" : {
+        "label" : "Transform",
+        "type" : "TRANSFORM",
+        "top" : 252,
+        "left" : 252,
+        "graph" : {
+          "EDIT_ATTRIBUTES5" : null,
+          "EDIT_ATTRIBUTES6" : null,
+          "FORMULA1" : {
+            "parameters" : {
+              "type" : "BASE_FORMULA_UI"
+            }
+          }
+        },
+        "connectors" : [ {
+          "source" : "EDIT_ATTRIBUTES5",
+          "target" : "EDIT_ATTRIBUTES6"
+        }, {
+          "source" : "FORMULA1",
+          "target" : "EDIT_ATTRIBUTES5"
+        } ]
+      },
+      "TRANSFORM2" : {
+        "label" : "Transform",
+        "type" : "TRANSFORM",
+        "top" : 112.30000000000001,
+        "left" : 1092.5,
+        "graph" : {
+          "FORMULA2" : {
+            "parameters" : {
+              "type" : "BASE_FORMULA_UI"
+            }
+          },
+          "FORMULA3" : {
+            "parameters" : {
+              "type" : "BASE_FORMULA_UI"
+            }
+          },
+          "FORMULA4" : {
+            "parameters" : {
+              "type" : "BASE_FORMULA_UI"
+            }
+          },
+          "EDIT_ATTRIBUTES8" : {
+            "label" : "Edit Attributes"
+          },
+          "EDIT_ATTRIBUTES9" : {
+            "label" : "Edit Attributes"
+          },
+          "EDIT_ATTRIBUTES10" : {
+            "label" : "Edit Attributes"
+          },
+          "EDIT_ATTRIBUTES11" : {
+            "label" : "Edit Attributes"
+          }
+        },
+        "connectors" : [ {
+          "source" : "FORMULA3",
+          "target" : "FORMULA4"
+        }, {
+          "source" : "FORMULA2",
+          "target" : "FORMULA3"
+        }, {
+          "source" : "FORMULA4",
+          "target" : "EDIT_ATTRIBUTES8"
+        }, {
+          "source" : "EDIT_ATTRIBUTES8",
+          "target" : "EDIT_ATTRIBUTES9"
+        }, {
+          "source" : "EDIT_ATTRIBUTES9",
+          "target" : "EDIT_ATTRIBUTES10"
+        }, {
+          "source" : "EDIT_ATTRIBUTES10",
+          "target" : "EDIT_ATTRIBUTES11"
+        } ]
+      },
+      "JOIN4" : {
+        "label" : "Join Contacts onto Activity",
+        "description" : "",
+        "type" : "JOIN",
+        "top" : 112.1,
+        "left" : 532
+      },
+      "LOAD_DATASET7" : {
+        "label" : "Contact",
+        "type" : "LOAD_DATASET",
+        "top" : 391.8,
+        "left" : 112.1,
+        "parameters" : {
+          "sampleSize" : 2000
+        }
+      },
+      "TRANSFORM3" : {
+        "label" : "Create Default Values",
+        "description" : "",
+        "type" : "TRANSFORM",
+        "top" : 252,
+        "left" : 532.5,
+        "graph" : {
+          "FORMULA5" : {
+            "parameters" : {
+              "type" : "BASE_FORMULA_UI"
+            },
+            "label" : "Full Name"
+          },
+          "FORMULA6" : {
+            "parameters" : {
+              "type" : "BASE_FORMULA_UI"
+            },
+            "label" : "Contact Title"
+          },
+          "FORMULA7" : {
+            "parameters" : {
+              "type" : "BASE_FORMULA_UI"
+            },
+            "label" : "Contact Email"
+          },
+          "FORMULA8" : {
+            "parameters" : {
+              "type" : "BASE_FORMULA_UI"
+            },
+            "label" : "Contact Phone"
+          },
+          "DROP_FIELDS0" : {
+            "label" : "Drop Columns"
+          }
+        },
+        "connectors" : [ {
+          "source" : "FORMULA5",
+          "target" : "FORMULA6"
+        }, {
+          "source" : "FORMULA6",
+          "target" : "FORMULA7"
+        }, {
+          "source" : "FORMULA7",
+          "target" : "FORMULA8"
+        }, {
+          "source" : "FORMULA8",
+          "target" : "DROP_FIELDS0"
+        } ]
+      }
+    },
+    "connectors" : [ {
+      "source" : "JOIN0",
+      "target" : "JOIN2"
+    }, {
+      "source" : "LOAD_DATASET0",
+      "target" : "TRANSFORM0"
+    }, {
+      "source" : "LOAD_DATASET1",
+      "target" : "TRANSFORM1"
+    }, {
+      "source" : "TRANSFORM1",
+      "target" : "APPEND0"
+    }, {
+      "source" : "TRANSFORM0",
+      "target" : "APPEND0"
+    }, {
+      "source" : "JOIN4",
+      "target" : "JOIN0"
+    }, {
+      "source" : "LOAD_DATASET2",
+      "target" : "JOIN0"
+    }, {
+      "source" : "LOAD_DATASET4",
+      "target" : "JOIN2"
+    }, {
+      "source" : "JOIN3",
+      "target" : "TRANSFORM2"
+    }, {
+      "source" : "TRANSFORM2",
+      "target" : "OUTPUT0"
+    }, {
+      "source" : "JOIN2",
+      "target" : "JOIN3"
+    }, {
+      "source" : "LOAD_DATASET5",
+      "target" : "JOIN3"
+    }, {
+      "source" : "APPEND0",
+      "target" : "JOIN4"
+    }, {
+      "source" : "TRANSFORM3",
+      "target" : "JOIN4"
+    }, {
+      "source" : "LOAD_DATASET7",
+      "target" : "TRANSFORM3"
+    } ],
+    "hiddenColumns" : [ ]
+  },
+  "runMode" : null
+}

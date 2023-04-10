@@ -1,0 +1,122 @@
+<aura:component controller="PreviewPurchaseOrderLineController"
+    implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickActionWithoutHeader"
+    access="global">
+      <aura:html tag="style">
+        .cuf-content {
+        padding: 0 0rem !important;
+        }
+         
+        .slds-p-around--medium {
+        padding: 0rem !important;
+        }
+    </aura:html>
+    <aura:attribute name="record" type="Object" />
+    <aura:attribute name="purchaseOrder" type="Object" />
+    <aura:attribute name="purchaseOrderLines" type="String" />
+    <aura:attribute name="error" type="String" />
+    <aura:attribute name="Header" type="String" />
+    <aura:attribute name="templates" type="List" default="[]" />
+    <aura:attribute name="selectedTemplate" type="String" default="" />
+    <aura:attribute name="templatefolderName" type="String" />
+    <aura:attribute name="isTemplateSelected" type="Boolean" default="false" />
+    <aura:attribute name="Spinner" type="Boolean" default="false" />
+    <aura:attribute name="selectedToContact" type="sObject[]" default="[]" />
+    <aura:attribute name="selectedCcContact" type="sObject[]" default="[]" />
+    <aura:attribute name="rejectReason" type="String" default="" />
+    <aura:attribute name="isRejected" type="Boolean" default="false" />
+    <aura:attribute name="isEmailSend" type="Boolean" default="false" />
+    <aura:attribute name="isClose" type="Boolean" default="false" />
+    <aura:attribute name="isCreateSignature" type="boolean" default="false" />
+    <aura:attribute name="parentId" type="string" />
+    <aura:method name="sendMethod" action="{!c.sendMethodCall}" access="public" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <force:recordData aura:id="forceRecordCmp" recordId="{!v.recordId}"
+        fields="buildertek__Project__r.Name, buildertek__Auto_Number__c, buildertek__PO_Total__c, buildertek__PO_Amount__c, buildertek__Tax__c, buildertek__PO_Total__c"
+        targetRecord="{!v.record}" targetFields="{!v.purchaseOrder}" targetError="{!v.error}" />
+
+    <ltng:require styles="{!$Resource.ModalPreviewCSS}" />
+     
+     <aura:html tag="style">
+        .slds-modal__container {
+         width:70% !important;      
+		max-width: 60% !important;  
+        overflow: hidden !important;
+        }
+         .runtime_platform_actionsQuickActionWrapper .quick-actions-panel {
+            overflow: hidden !important;
+         }
+         .slds-modal__content {
+         overflow: hidden !important;
+         }
+              .slds-modal__close{
+         	display:block !important;    
+         }
+         .slds-modal__footer {
+    position:stikcy;
+    bottom:0;
+    z-index:2;
+}
+        </aura:html>
+
+    <div class="slds-modal__header" style="font-size:17px;">
+        Send Lien Release
+    </div>
+    <div class="scrollable">
+        <div class="slds-modal__content slds-p-around--small">
+             <div class="slds-scrollable_y" style=" max-height:30rem;">
+            <aura:if isTrue="{!v.Spinner}">
+                <div aura:id="spinnerId" class="slds-spinner_container">
+                    <div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert">
+                        <span class="slds-assistive-text">Loading</span>
+                        <div class="slds-spinner__dot-a"></div>
+                        <div class="slds-spinner__dot-b"></div>
+                         <div class="custom-loading-text">
+                           <b>Processing, Please Wait</b>
+                       </div>
+                    </div>
+                </div>
+            </aura:if>
+            <aura:if isTrue="{!!v.isTemplateSelected}">
+                <lightning:select name="templates" label="Select Template" aura:id="template"
+                    value="{!v.selectedTemplate}" onchange="{!c.preiewEmailTemplate}">
+                    <option text="None" value="--None--" />
+                    <aura:iteration items="{!v.templates}" var="temp">
+                        <option text="{!temp.Name}" value="{!temp.Id}" />
+                    </aura:iteration>
+                </lightning:select>
+            </aura:if>
+            <aura:if isTrue="{!v.isTemplateSelected}">
+                <div class="slds-form-element slds-email-composer__combobox" style="padding-bottom: 10px;">
+                    <label class="slds-form-element__label" for="recipients-to">To</label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-combobox_container slds-has-inline-listbox">
+                            <c:BT_MultiSelectLookup objectAPIName="contact" IconName="standard:contact"
+                                lstSelectedRecords="{!v.selectedToContact}" label="" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slds-form-element slds-email-composer__combobox"
+                    style="padding-top: 10px;padding-bottom: 10px;">
+                    <label class="slds-form-element__label" for="recipients-cc">Cc</label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-combobox_container slds-has-inline-listbox">
+                            <c:BT_MultiSelectLookup objectAPIName="contact" IconName="standard:contact"
+                                lstSelectedRecords="{!v.selectedCcContact}" label="" />
+                        </div>
+                    </div>
+                </div>
+                <aura:unescapedHtml value="{!v.purchaseOrderLines}" />
+                <br />
+            </aura:if>
+        </div>
+    </div>
+    </div>
+    <div class="slds-modal__footer modal-footer" style="text-align:center;">
+        <button class="slds-button slds-button--brand"  onclick="{!c.sendMethodCall}">Send
+            Email</button>
+        <button class="slds-button slds-button--neutral" 
+            onclick="{!c.closeModel}">Cancel</button>
+    </div>
+</aura:component>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WaveApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <assetIcon>/analytics/wave/web/proto/images/app/icons/10.png</assetIcon>
+    <description>Change Order Information</description>
+    <folder>buildertek__Chang_Order_App</folder>
+    <masterLabel>Chang Order App</masterLabel>
+    <shares>
+        <accessLevel>EditAllContents</accessLevel>
+        <sharedTo>AllInternalUsers</sharedTo>
+        <sharedToType>Organization</sharedToType>
+    </shares>
+    <shares>
+        <accessLevel>View</accessLevel>
+        <sharedTo>AllPartnerUsers</sharedTo>
+        <sharedToType>AllPrmUsers</sharedToType>
+    </shares>
+    <shares>
+        <accessLevel>View</accessLevel>
+        <sharedTo>AllCustomerPortalUsers</sharedTo>
+        <sharedToType>AllCspUsers</sharedToType>
+    </shares>
+    <shares>
+        <accessLevel>EditAllContents</accessLevel>
+        <sharedTo>bc@buildertek.com</sharedTo>
+        <sharedToType>User</sharedToType>
+    </shares>
+    <templateOrigin>sfdc_internal__Trending_Analytics</templateOrigin>
+    <templateVersion>1.0</templateVersion>
+</WaveApplication>
